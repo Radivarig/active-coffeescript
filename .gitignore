@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log
+
+bundle.js
+bundle.js.map
+
+server/build/
+
+phonegap/platforms/
+phonegap/plugins/
+
+!phonegap/www/*
