@@ -3,6 +3,8 @@ import { Provider, connect } from 'react-redux'
 import getReduxStore from 'getReduxStore'
 import { getRequestResponseDispatches } from 'reducers/requestResponse'
 
+import { MyEditor } from 'MyEditor'
+
 const AppView = React.createClass({
   render () {
     const buttonText = this.props.isFetching ?
@@ -37,6 +39,8 @@ const AppView = React.createClass({
           value={response}
           disabled
         />
+
+        <MyEditor />
 
       </div>
     )
