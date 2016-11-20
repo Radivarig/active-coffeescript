@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { fromJS } from 'immutable'
 
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin'
-import 'mentionsStyles.css'
+import 'css/mentionsStyles.css'
 
 const mentions = fromJS([
-  {name: 'test1'},
-  {name: 'test2'},
+  {name: 'test3'},
+  {name: 'test4'},
 ])
 
 const mentionComponent = (props) =>
@@ -36,19 +36,19 @@ const Entry = (props) => {
   )
 }
 
-export const coffeeObjectVariableMentionsPlugin = createMentionPlugin({
+export const mentionsPlugin = createMentionPlugin({
   mentions,
   mentionComponent,
   // positionSuggestions, not working (?)
   entityMutability: 'IMMUTABLE',
   theme: {mentionSuggestionsEntryFocused: 'mentionSuggestionsEntryFocused'},
-  mentionPrefix: '@',
-  mentionTrigger: '@',
+  mentionPrefix: '#',
+  mentionTrigger: '#',
 })
 
-const { MentionSuggestions } = coffeeObjectVariableMentionsPlugin
+const { MentionSuggestions } = mentionsPlugin
 
-export const CoffeeObjectVariableMentions = React.createClass({
+export const Mentions = React.createClass({
   onSearchChange ({value}) {
     this.setState({
       suggestions: defaultSuggestionsFilter(value, mentions),
