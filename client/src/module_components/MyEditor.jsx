@@ -4,9 +4,11 @@ import { EditorState } from 'draft-js'
 import Editor from 'draft-js-plugins-editor'
 import editorStyles from 'css/editorStyles.css'
 
+import { UndoButton, RedoButton, undoPlugin } from 'DraftPlugins/Undo'
 import { CoffeeObjectMentions, coffeeObjectMentionsPlugin } from 'DraftPlugins/CoffeeObjectMentions'
 
 const plugins = [
+  undoPlugin,
   coffeeObjectMentionsPlugin,
 ]
 
@@ -37,6 +39,11 @@ export const MyEditor = React.createClass({
 
           <CoffeeObjectMentions />
 
+        </div>
+
+        <div className='options'>
+          <UndoButton />
+          <RedoButton />
         </div>
 
       </div>
