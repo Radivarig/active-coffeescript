@@ -33,13 +33,15 @@ const blockLogic = {
 
     const controls = (type, key) => {
       const active = type.style === blockType
-      return <button
-        key={key}
-        style={{backgroundColor: active ? 'grey' : ''}}
-        onMouseDown={type.style && (() => props.onToggle(type.style))}
-      >
-      {type.label}
-      </button>
+      return (
+        <button
+          key={key}
+          style={{backgroundColor: active ? 'grey' : ''}}
+          onClick={() => props.onToggle(type.style)}
+        >
+          {type.label}
+        </button>
+      )
     }
 
     return (

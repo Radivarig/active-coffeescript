@@ -141,10 +141,9 @@ export const MyEditor = React.createClass({
           />
 
           <CoffeeObjectMentions
-            isEdit={this.state.isEdit}
             codeText={this.getCodeText()}
-            onSuccess={(coffeeObject) => {}}
-            onError={(error) => {}}
+            onSuccess={(coffeeObject) => {console.log(coffeeObject)}}
+            onError={(error) => {console.log({error})}}
           />
           <Mentions />
 

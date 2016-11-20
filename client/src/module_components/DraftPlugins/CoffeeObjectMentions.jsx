@@ -5,20 +5,9 @@ import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-
 import 'css/mentionsStyles.css'
 
 import CoffeeScriptToObject from 'coffeescript-to-object'
-
-const mentionComponent = (props) =>
-// TODO
-// if (exists) show variable value
-// else show variable name in red
-  (
-    <span className={props.className}>
-      {props.mentionPrefix}
-      {props.decoratedText}
-    </span>
-  )
+import MentionComponent from 'MentionComponent'
 
 const SuggestionEntry = (props) => {
-
   const {
     mention,
     theme,
@@ -34,7 +23,7 @@ const SuggestionEntry = (props) => {
 }
 
 export const coffeeObjectMentionsPlugin = createMentionPlugin({
-  mentionComponent,
+  mentionComponent: MentionComponent,
   // positionSuggestions, not working (?)
   entityMutability: 'IMMUTABLE',
   theme: {mentionSuggestionsEntryFocused: 'mentionSuggestionsEntryFocused'},
