@@ -5,6 +5,7 @@ import Editor from 'draft-js-plugins-editor'
 import editorStyles from 'css/editorStyles.css'
 
 import blockLogic from 'blockLogic'
+import { OnClickOutsideWrapper } from 'OnClickOutsideWrapper'
 
 import { UndoButton, RedoButton, undoPlugin } from 'DraftPlugins/Undo'
 import { Mentions, mentionsPlugin } from 'DraftPlugins/Mentions'
@@ -48,6 +49,27 @@ export const MyEditor = React.createClass({
     return codeText
   },
 
+  getReadOnly () {
+    return ! this.state.isEdit
+  },
+
+  handleDoubleClickEditor (e) {
+    if (this.state.isEdit)
+      return
+    if (this.firstClick) {
+      // double click happened
+      this.setState({isEdit: true})
+    }
+    else {
+      this.firstClick = true
+      setTimeout(() => (this.firstClick = false), 500)
+    }
+  },
+
+  handleClickOutsideEditor (e) {
+    this.setState({isEdit: false})
+  },
+
   render () {
     const {editorState} = this.state
 
@@ -59,8 +81,24 @@ export const MyEditor = React.createClass({
       }
     }
 
+    const editorPlaceholder = this.state.isEdit ? 'Type ...'
+      : 'Double click to enter edit mode ...'
+
     return (
+      <OnClickOutsideWrapper
+        onClick={this.handleDoubleClickEditor}
+        handleClickOutside={this.handleClickOutsideEditor}
+      >
+
       <div className='RichEditor-root'>
+
+        <button
+          onClick={() => this.setState({isEdit: !this.state.isEdit})}
+          style={{backgroundColor: this.state.isEdit ? 'grey' : ''}}
+        >
+          Edit mode
+        </button>
+        <br/>
 
         <blockLogic.BlockStyleControls
           editorState={this.state.editorState}
@@ -70,11 +108,13 @@ export const MyEditor = React.createClass({
         <div className={className}>
 
           <Editor
+            placeholder={editorPlaceholder}
             editorState={this.state.editorState}
             onChange={this.onChange}
             plugins={plugins}
             ref={(element) => { this.editor = element }}
             blockStyleFn={blockLogic.getBlockStyle}
+            readOnly={this.getReadOnly()}
           />
 
           <CoffeeObjectMentions
@@ -92,6 +132,8 @@ export const MyEditor = React.createClass({
         </div>
 
       </div>
+
+      </OnClickOutsideWrapper>
     )
   },
 })
