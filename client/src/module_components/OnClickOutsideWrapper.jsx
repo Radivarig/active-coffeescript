@@ -7,7 +7,12 @@ export const OnClickOutsideWrapper = onClickOutside(React.createClass({
   },
 
   render () {
-    let {handleClickOutside, ...rest} = this.props
+    let {
+      handleClickOutside,
+      disableOnClickOutside,
+      enableOnClickOutside,
+      ...rest
+    } = this.props
     return (
       <span {...rest}>
         {this.props.children}
