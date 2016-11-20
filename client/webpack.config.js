@@ -8,7 +8,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.jsx?$/, loaders: ['babel', 'eslint'], exclude: /node_modules/ },
-      { test: /\.css$/, loaders: ['style', 'css'], exclude: /node_modules/ }
+      { test: /\.css$/, loaders: ['style', 'css']}
     ]
   },
   eslint: {

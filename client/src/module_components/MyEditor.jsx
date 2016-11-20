@@ -4,6 +4,10 @@ import { EditorState, RichUtils } from 'draft-js'
 import Editor from 'draft-js-plugins-editor'
 import editorStyles from 'css/editorStyles.css'
 
+import PrismDecorator from 'draft-js-prism'
+import 'prismjs/themes/prism.css'
+import 'prismjs/components/prism-coffeescript'
+
 import blockLogic from 'blockLogic'
 import { OnClickOutsideWrapper } from 'OnClickOutsideWrapper'
 
@@ -105,7 +109,6 @@ export const MyEditor = React.createClass({
         onClick={this.handleDoubleClickEditor}
         handleClickOutside={this.handleClickOutsideEditor}
       >
-
       <div className='RichEditor-root'>
 
         <button
@@ -114,6 +117,7 @@ export const MyEditor = React.createClass({
         >
           Edit mode
         </button>
+
         <br/>
 
         <blockLogic.BlockStyleControls
@@ -128,6 +132,9 @@ export const MyEditor = React.createClass({
             editorState={this.state.editorState}
             onChange={this.onChange}
             plugins={plugins}
+            decorators={[
+              new PrismDecorator({defaultSyntax: 'coffeescript'}),
+            ]}
             ref='editor'
             blockStyleFn={blockLogic.getBlockStyle}
             readOnly={this.getReadOnly()}
