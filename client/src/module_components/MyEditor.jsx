@@ -38,6 +38,16 @@ export const MyEditor = React.createClass({
     )
   },
 
+  getCodeText () {
+    var contentState = this.state.editorState.getCurrentContent()
+    var codeText = ''
+    contentState.getBlockMap().forEach((x) => {
+      if (x.getType() === 'code-block')
+        codeText += '\n' + x.getText()
+    })
+    return codeText
+  },
+
   render () {
     const {editorState} = this.state
 
@@ -67,7 +77,11 @@ export const MyEditor = React.createClass({
             blockStyleFn={blockLogic.getBlockStyle}
           />
 
-          <CoffeeObjectMentions />
+          <CoffeeObjectMentions
+            codeText={this.getCodeText()}
+            onSuccess={(coffeeObject) => {}}
+            onError={(error) => {}}
+          />
           <Mentions />
 
         </div>

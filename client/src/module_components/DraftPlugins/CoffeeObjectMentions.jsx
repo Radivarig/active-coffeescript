@@ -4,10 +4,7 @@ import { fromJS } from 'immutable'
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin'
 import 'css/mentionsStyles.css'
 
-const mentions = fromJS([
-  {name: 'test1'},
-  {name: 'test2'},
-])
+import CoffeeScriptToObject from 'coffeescript-to-object'
 
 const mentionComponent = (props) =>
 // TODO
@@ -37,7 +34,6 @@ const SuggestionEntry = (props) => {
 }
 
 export const coffeeObjectMentionsPlugin = createMentionPlugin({
-  mentions,
   mentionComponent,
   // positionSuggestions, not working (?)
   entityMutability: 'IMMUTABLE',
@@ -51,24 +47,39 @@ const { MentionSuggestions } = coffeeObjectMentionsPlugin
 export const CoffeeObjectMentions = React.createClass({
   onSearchChange ({value}) {
     this.setState({
-      suggestions: defaultSuggestionsFilter(value, mentions),
+      suggestions: defaultSuggestionsFilter(value, this.state.mentions),
     })
   },
 
   getInitialState () {
+    const mentions = fromJS([])
     return {
+      mentions,
       suggestions: mentions,
     }
   },
 
   render () {
+    const onSuccess = (coffeeObject) => {
+      const propertyNames = Object.getOwnPropertyNames(coffeeObject)
+      const mentions = fromJS(propertyNames.map((x, i) => ({name: x})))
+      this.setState({mentions})
+      this.props.onSuccess(coffeeObject)
+    }
 
     return (
-    <MentionSuggestions
-      onSearchChange={this.onSearchChange}
-      suggestions={this.state.suggestions}
-      entryComponent={SuggestionEntry}
-    />
+      <div>
+        <MentionSuggestions
+          onSearchChange={this.onSearchChange}
+          suggestions={this.state.suggestions}
+          entryComponent={SuggestionEntry}
+        />
+        <CoffeeScriptToObject
+          codeText={this.props.codeText}
+          onSuccess={onSuccess}
+          onError={this.props.onError}
+        />
+      </div>
     )
   },
 })
