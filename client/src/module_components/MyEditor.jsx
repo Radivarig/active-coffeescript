@@ -37,6 +37,7 @@ export const MyEditor = React.createClass({
         blockType
       )
     )
+    this.enterEditMode()
   },
 
   getCodeText () {
@@ -53,12 +54,16 @@ export const MyEditor = React.createClass({
     return ! this.state.isEdit
   },
 
+  enterEditMode () {
+    this.setState({isEdit: true}, this.focus)
+  },
+
   handleDoubleClickEditor (e) {
     if (this.state.isEdit)
       return
     if (this.firstClick) {
       // double click happened
-      this.setState({isEdit: true})
+      this.enterEditMode()
     }
     else {
       this.firstClick = true
@@ -68,6 +73,17 @@ export const MyEditor = React.createClass({
 
   handleClickOutsideEditor (e) {
     this.setState({isEdit: false})
+  },
+
+  focus () {
+    if (! this.getReadOnly())
+      this.refs['editor'].focus()
+  },
+
+  toggleIsEdit () {
+    if (this.state.isEdit)
+      this.setState({isEdit: false})
+    else this.enterEditMode()
   },
 
   render () {
@@ -93,7 +109,7 @@ export const MyEditor = React.createClass({
       <div className='RichEditor-root'>
 
         <button
-          onClick={() => this.setState({isEdit: !this.state.isEdit})}
+          onClick={this.toggleIsEdit}
           style={{backgroundColor: this.state.isEdit ? 'grey' : ''}}
         >
           Edit mode
@@ -112,12 +128,13 @@ export const MyEditor = React.createClass({
             editorState={this.state.editorState}
             onChange={this.onChange}
             plugins={plugins}
-            ref={(element) => { this.editor = element }}
+            ref='editor'
             blockStyleFn={blockLogic.getBlockStyle}
             readOnly={this.getReadOnly()}
           />
 
           <CoffeeObjectMentions
+            isEdit={this.state.isEdit}
             codeText={this.getCodeText()}
             onSuccess={(coffeeObject) => {}}
             onError={(error) => {}}
