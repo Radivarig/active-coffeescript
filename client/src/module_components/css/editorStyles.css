@@ -1,3 +1,8 @@
+pre {
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
 .RichEditor-editor {
   box-sizing: border-box;
   border: 1px solid #ddd;
