@@ -44,11 +44,10 @@ export const actions = {
   },
 }
 
-export const getRequestResponseDispatches = (dispatch) =>
-   ({
-     changeRequest: (...args) => dispatch(actions.changeRequest.apply(null, args)),
-     submitRequest: () => dispatch(actions.submitRequest(dispatch)),
-   })
+export const getRequestResponseDispatches = (dispatch) => ({
+  changeRequest: (...args) => dispatch(actions.changeRequest.apply(null, args)),
+  submitRequest: () => dispatch(actions.submitRequest(dispatch)),
+})
 
 const initialState: RequestResponse = new RequestResponse('{\n  "foo": "bla",\n  "a": "c"\n}')
 export const requestResponse = (state = initialState, action) => {

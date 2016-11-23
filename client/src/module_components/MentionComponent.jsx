@@ -6,7 +6,7 @@ import { getRequestResponseDispatches } from 'reducers/requestResponse'
 const AppView = React.createClass({
   render () {
     const style = {
-      backgroundColor: 'yellow',
+      backgroundColor: 'cyan',
     }
 
     const varname = this.props.decoratedText.slice(1)
@@ -18,7 +18,6 @@ const AppView = React.createClass({
 
     const propertyNames = Object.getOwnPropertyNames(this.props.coffeeObject)
 
-    console.log('varname', this.props.mentionPrefix, varname, propertyNames)
     if (propertyNames.indexOf(varname) > -1) {
       if (! this.props.isEdit) {
         payload =
@@ -40,10 +39,10 @@ const AppView = React.createClass({
 })
 
 const mapStateToProps = (state) => {
-  const s = state.requestResponse
+  const s = state.appState
   return {
-    coffeeObject: s.get('coffeeObject'),
     isEdit: s.get('isEdit'),
+    coffeeObject: s.get('coffeeObject'),
   }
 }
 const mapDispatchToProps = (dispatch) =>
@@ -57,7 +56,6 @@ const ConnectedAppView = connect(
 
 const App = React.createClass({
   render () {
-    console.log('govn', this.props)
     return (
       <Provider store={getReduxStore()}>
         <ConnectedAppView {...this.props} />

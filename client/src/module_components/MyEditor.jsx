@@ -55,15 +55,20 @@ export const MyEditor = React.createClass({
   },
 
   getReadOnly () {
-    return ! this.state.isEdit
+    return (! this.props.isEdit)
   },
 
+  // componentWillRecieveProps (nextProps) {
+  //   if (this.props.isEdit !== nextProps.isEdit && nextProps.isEdit)
+  //     this.focus()
+  // },
+
   enterEditMode () {
-    this.setState({isEdit: true}, this.focus)
+    this.props.setIsEdit(true)
   },
 
   handleDoubleClickEditor (e) {
-    if (this.state.isEdit)
+    if (this.props.isEdit)
       return
     if (this.firstClick) {
       // double click happened
@@ -75,8 +80,8 @@ export const MyEditor = React.createClass({
     }
   },
 
-  handleClickOutsideEditor (e) {
-    this.setState({isEdit: false})
+  handleClickOutsideEditor () {
+    this.props.setIsEdit(false)
   },
 
   focus () {
@@ -85,8 +90,8 @@ export const MyEditor = React.createClass({
   },
 
   toggleIsEdit () {
-    if (this.state.isEdit)
-      this.setState({isEdit: false})
+    if (this.props.isEdit)
+      this.props.setIsEdit(false)
     else this.enterEditMode()
   },
 
@@ -101,7 +106,7 @@ export const MyEditor = React.createClass({
       }
     }
 
-    const editorPlaceholder = this.state.isEdit ? 'Type ...'
+    const editorPlaceholder = this.props.isEdit ? 'Type ...'
       : 'Double click to enter edit mode ...'
 
     return (
@@ -113,7 +118,7 @@ export const MyEditor = React.createClass({
 
         <button
           onClick={this.toggleIsEdit}
-          style={{backgroundColor: this.state.isEdit ? 'grey' : ''}}
+          style={{backgroundColor: this.props.isEdit ? 'grey' : ''}}
         >
           Edit mode
         </button>
@@ -142,7 +147,7 @@ export const MyEditor = React.createClass({
 
           <CoffeeObjectMentions
             codeText={this.getCodeText()}
-            onSuccess={(coffeeObject) => {console.log(coffeeObject)}}
+            onSuccess={this.props.setCoffeeObject}
             onError={(error) => {console.log({error})}}
           />
           <Mentions />

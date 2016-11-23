@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 import getReduxStore from 'getReduxStore'
 import { getRequestResponseDispatches } from 'reducers/requestResponse'
+import { getAppStateDispatches } from 'reducers/appState'
 
 import { MyEditor } from 'MyEditor'
 
@@ -40,25 +41,33 @@ const AppView = React.createClass({
           disabled
         />
 
-        <MyEditor />
+        <MyEditor
+          isEdit={this.props.isEdit}
+          setIsEdit={this.props.setIsEdit}
+
+          coffeeObject={this.props.coffeeObject}
+          setCoffeeObject={this.props.setCoffeeObject}
+        />
 
       </div>
     )
   },
 })
 
-const mapStateToProps = (state) => {
-  const s = state.requestResponse
-  return {
-    request: s.get('request'),
-    response: s.get('response'),
-    isFetching: s.get('isFetching'),
-    isError: s.get('isError'),
-  }
-}
+const mapStateToProps = (state) => ({
+  request: state.requestResponse.get('request'),
+  response: state.requestResponse.get('response'),
+  isFetching: state.requestResponse.get('isFetching'),
+  isError: state.requestResponse.get('isError'),
+
+  isEdit: state.appState.get('isEdit'),
+  coffeeObject: state.appState.get('coffeeObject'),
+})
 const mapDispatchToProps = (dispatch) =>
-   Object.assign(getRequestResponseDispatches(dispatch), {
-   })
+  Object.assign({},
+    getRequestResponseDispatches(dispatch),
+    getAppStateDispatches(dispatch),
+)
 
 const ConnectedAppView = connect(
   mapStateToProps,
