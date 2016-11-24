@@ -9,11 +9,11 @@ const AppView = React.createClass({
       backgroundColor: 'cyan',
     }
 
+    const prefix = this.props.decoratedText.slice(0, 1)
     const varname = this.props.decoratedText.slice(1)
-
     let payload =
       <span>
-        {varname}
+        {prefix}{varname}
       </span>
 
     const propertyNames = Object.getOwnPropertyNames(this.props.coffeeObject)
