@@ -24,6 +24,7 @@ const plugins = [
 export const MyEditor = React.createClass({
   getInitialState () {
     return {
+      isFocused: false,
       editorState: EditorState.createEmpty(),
     }
   },
@@ -83,19 +84,23 @@ export const MyEditor = React.createClass({
   },
 
   handleClickOutsideEditor () {
-    this.props.setIsEdit(false)
+    this.setState({isFocused: false}, () =>
+      this.props.setIsEdit(false)
+    )
   },
 
   focus () {
-    this.refs['editor'].focus()
+    this.setState({isFocused: true}, () =>
+      this.refs['editor'].focus()
+    )
   },
 
   handleOnBlur () {
-    this.props.setIsEdit(false)
+    this.setState({isFocused: false})
   },
 
   toggleIsEdit () {
-    this.setIsEditAndFocus(! this.props.isEdit)
+    this.props.setIsEdit(! this.props.isEdit)
   },
 
   render () {
