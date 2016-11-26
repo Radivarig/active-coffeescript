@@ -9,10 +9,10 @@
 
 .RichEditor-editor .public-DraftStyleDefault-pre > pre.null:before {
     float: left;
-    opacity: 0.3;
+    opacity: 0.15;
     display: inline-block;
     width: 2.5em;
-    text-align: center;
-    content: counter(line) ".";
+    text-align: right;
+    content: counter(line) "| ";
     -webkit-user-select: none;
 }
