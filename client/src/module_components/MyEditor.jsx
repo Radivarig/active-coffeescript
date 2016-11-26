@@ -41,7 +41,13 @@ export const MyEditor = React.createClass({
         blockType
       )
     )
-    this.enterEditMode()
+    this.setIsEditAndFocus()
+  },
+
+  setIsEditAndFocus () {
+    if (! this.props.isEdit)
+      this.props.setIsEdit(true)
+    else this.focus()
   },
 
   getCodeText () {
@@ -54,17 +60,13 @@ export const MyEditor = React.createClass({
     return codeText
   },
 
-  getReadOnly () {
+  getIsReadOnly () {
     return (! this.props.isEdit)
   },
 
-  // componentWillRecieveProps (nextProps) {
-  //   if (this.props.isEdit !== nextProps.isEdit && nextProps.isEdit)
-  //     this.focus()
-  // },
-
-  enterEditMode () {
-    this.props.setIsEdit(true)
+  componentDidUpdate (prevProps, prevState) {
+    if (prevProps.isEdit !== this.props.isEdit && this.props.isEdit)
+      this.setIsEditAndFocus()
   },
 
   handleDoubleClickEditor (e) {
@@ -72,7 +74,7 @@ export const MyEditor = React.createClass({
       return
     if (this.firstClick) {
       // double click happened
-      this.enterEditMode()
+      this.setIsEditAndFocus()
     }
     else {
       this.firstClick = true
@@ -85,14 +87,15 @@ export const MyEditor = React.createClass({
   },
 
   focus () {
-    if (! this.getReadOnly())
-      this.refs['editor'].focus()
+    this.refs['editor'].focus()
+  },
+
+  handleOnBlur () {
+    this.props.setIsEdit(false)
   },
 
   toggleIsEdit () {
-    if (this.props.isEdit)
-      this.props.setIsEdit(false)
-    else this.enterEditMode()
+    this.setIsEditAndFocus(! this.props.isEdit)
   },
 
   render () {
@@ -136,13 +139,14 @@ export const MyEditor = React.createClass({
             placeholder={editorPlaceholder}
             editorState={this.state.editorState}
             onChange={this.onChange}
+            onBlur={this.handleOnBlur}
             plugins={plugins}
             decorators={[
               new PrismDecorator({defaultSyntax: 'coffeescript'}),
             ]}
             ref='editor'
             blockStyleFn={blockLogic.getBlockStyle}
-            readOnly={this.getReadOnly()}
+            readOnly={this.getIsReadOnly()}
           />
 
           <CoffeeObjectMentions
