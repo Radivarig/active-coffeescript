@@ -34,6 +34,7 @@ export const MyEditor = React.createClass({
   onChange (editorState) {
     this.setState({
       editorState,
+      codeText: this.getCodeText(editorState),
     })
   },
 
@@ -53,8 +54,8 @@ export const MyEditor = React.createClass({
     else this.focus()
   },
 
-  getCodeText () {
-    const contentState = this.state.editorState.getCurrentContent()
+  getCodeText (editorState) {
+    const contentState = editorState.getCurrentContent()
     let codeText = ''
     contentState.getBlockMap().forEach((x) => {
       if (x.getType() === 'code-block')
@@ -156,17 +157,12 @@ export const MyEditor = React.createClass({
               readOnly={this.getIsReadOnly()}
             />
 
-            {
-            draftHelpers.getBlockType(editorState) !== 'code-block' ?
-              <span>
-                <CoffeeObjectMentions
-                  codeText={this.getCodeText()}
-                  onSuccess={this.props.setCoffeeObject}
-                  onError={(error) => {console.log({error})}}
-                />
-                <Mentions />
-              </span> : ''
-          }
+            <CoffeeObjectMentions
+              disabled={draftHelpers.getBlockType(editorState) === 'code-block'}
+              codeText={this.state.codeText}
+              onSuccess={this.props.setCoffeeObject}
+              onError={(error) => {console.log({error})}}
+            />
 
           </div>
 

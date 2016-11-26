@@ -58,11 +58,14 @@ export const CoffeeObjectMentions = React.createClass({
 
     return (
       <div>
-        <MentionSuggestions
-          onSearchChange={this.onSearchChange}
-          suggestions={this.state.suggestions}
-          entryComponent={SuggestionEntry}
-        />
+        {
+          this.props.disabled ? '' :
+          <MentionSuggestions
+            onSearchChange={this.onSearchChange}
+            suggestions={this.state.suggestions}
+            entryComponent={SuggestionEntry}
+          />
+        }
         <CoffeeScriptToObject
           codeText={this.props.codeText}
           onSuccess={onSuccess}
