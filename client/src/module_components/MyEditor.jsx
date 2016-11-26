@@ -15,6 +15,8 @@ import { UndoButton, RedoButton, undoPlugin } from 'DraftPlugins/Undo'
 import { Mentions, mentionsPlugin } from 'DraftPlugins/Mentions'
 import { CoffeeObjectMentions, coffeeObjectMentionsPlugin } from 'DraftPlugins/CoffeeObjectMentions'
 
+import draftHelpers from 'draftHelpers'
+
 const plugins = [
   undoPlugin,
   mentionsPlugin,
@@ -154,12 +156,17 @@ export const MyEditor = React.createClass({
             readOnly={this.getIsReadOnly()}
           />
 
-          <CoffeeObjectMentions
-            codeText={this.getCodeText()}
-            onSuccess={this.props.setCoffeeObject}
-            onError={(error) => {console.log({error})}}
-          />
-          <Mentions />
+          {
+            draftHelpers.getBlockType(editorState) !== 'code-block' ?
+            <span>
+              <CoffeeObjectMentions
+                codeText={this.getCodeText()}
+                onSuccess={this.props.setCoffeeObject}
+                onError={(error) => {console.log({error})}}
+              />
+              <Mentions />
+            </span> : ''
+          }
 
         </div>
 
