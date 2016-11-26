@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 import getReduxStore from 'getReduxStore'
-import { getRequestResponseDispatches } from 'reducers/requestResponse'
+import { getAppStateDispatchers } from 'reducers/appState'
 
 const AppView = React.createClass({
   render () {
@@ -46,7 +46,7 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = (dispatch) =>
-   Object.assign(getRequestResponseDispatches(dispatch), {
+   Object.assign(getAppStateDispatchers(dispatch), {
    })
 
 const ConnectedAppView = connect(

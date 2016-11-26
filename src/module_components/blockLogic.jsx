@@ -43,8 +43,8 @@ const blockLogic = {
 
     return (
       <div className='RichEditor-controls'>
-      <span>
-        {BLOCK_TYPES.map(controls)}
+        <span>
+          {BLOCK_TYPES.map(controls)}
         </span>
       </div>
     )

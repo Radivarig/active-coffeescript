@@ -64,11 +64,11 @@ export const Mentions = React.createClass({
   render () {
 
     return (
-    <MentionSuggestions
-      onSearchChange={this.onSearchChange}
-      suggestions={this.state.suggestions}
-      entryComponent={Entry}
-    />
+      <MentionSuggestions
+        onSearchChange={this.onSearchChange}
+        suggestions={this.state.suggestions}
+        entryComponent={Entry}
+      />
     )
   },
 })

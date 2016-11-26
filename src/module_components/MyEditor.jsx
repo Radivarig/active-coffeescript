@@ -54,11 +54,11 @@ export const MyEditor = React.createClass({
   },
 
   getCodeText () {
-    var contentState = this.state.editorState.getCurrentContent()
-    var codeText = ''
+    const contentState = this.state.editorState.getCurrentContent()
+    let codeText = ''
     contentState.getBlockMap().forEach((x) => {
       if (x.getType() === 'code-block')
-        codeText += '\n' + x.getText()
+        codeText += `\n${x.getText()}`
     })
     return codeText
   },
@@ -93,7 +93,7 @@ export const MyEditor = React.createClass({
 
   focus () {
     this.setState({isFocused: true}, () =>
-      this.refs['editor'].focus()
+      this.editor.focus()
     )
   },
 
@@ -109,7 +109,7 @@ export const MyEditor = React.createClass({
     const {editorState} = this.state
 
     let className = 'RichEditor-editor'
-    var contentState = editorState.getCurrentContent()
+    const contentState = editorState.getCurrentContent()
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
         className += ' RichEditor-hidePlaceholder'
@@ -124,58 +124,58 @@ export const MyEditor = React.createClass({
         onClick={this.handleDoubleClickEditor}
         handleClickOutside={this.handleClickOutsideEditor}
       >
-      <div className='RichEditor-root'>
+        <div className='RichEditor-root'>
 
-        <button
-          onClick={this.toggleIsEdit}
-          style={{backgroundColor: this.props.isEdit ? 'grey' : ''}}
-        >
+          <button
+            onClick={this.toggleIsEdit}
+            style={{backgroundColor: this.props.isEdit ? 'grey' : ''}}
+          >
           Edit mode
         </button>
 
-        <br/>
+          <br />
 
-        <blockLogic.BlockStyleControls
-          editorState={this.state.editorState}
-          onToggle={this.handleToggleBlock}
-        />
-
-        <div className={className}>
-
-          <Editor
-            placeholder={editorPlaceholder}
+          <blockLogic.BlockStyleControls
             editorState={this.state.editorState}
-            onChange={this.onChange}
-            onBlur={this.handleOnBlur}
-            plugins={plugins}
-            decorators={[
-              new PrismDecorator({defaultSyntax: 'coffeescript'}),
-            ]}
-            ref='editor'
-            blockStyleFn={blockLogic.getBlockStyle}
-            readOnly={this.getIsReadOnly()}
+            onToggle={this.handleToggleBlock}
           />
 
-          {
+          <div className={className}>
+
+            <Editor
+              placeholder={editorPlaceholder}
+              editorState={this.state.editorState}
+              onChange={this.onChange}
+              onBlur={this.handleOnBlur}
+              plugins={plugins}
+              decorators={[
+                new PrismDecorator({defaultSyntax: 'coffeescript'}),
+              ]}
+              ref={(editor) => {this.editor = editor}}
+              blockStyleFn={blockLogic.getBlockStyle}
+              readOnly={this.getIsReadOnly()}
+            />
+
+            {
             draftHelpers.getBlockType(editorState) !== 'code-block' ?
-            <span>
-              <CoffeeObjectMentions
-                codeText={this.getCodeText()}
-                onSuccess={this.props.setCoffeeObject}
-                onError={(error) => {console.log({error})}}
-              />
-              <Mentions />
-            </span> : ''
+              <span>
+                <CoffeeObjectMentions
+                  codeText={this.getCodeText()}
+                  onSuccess={this.props.setCoffeeObject}
+                  onError={(error) => {console.log({error})}}
+                />
+                <Mentions />
+              </span> : ''
           }
 
-        </div>
+          </div>
 
-        <div className='options'>
-          <UndoButton />
-          <RedoButton />
-        </div>
+          <div className='options'>
+            <UndoButton />
+            <RedoButton />
+          </div>
 
-      </div>
+        </div>
 
       </OnClickOutsideWrapper>
     )

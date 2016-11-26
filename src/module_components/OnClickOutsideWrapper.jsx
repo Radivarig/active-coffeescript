@@ -7,7 +7,7 @@ export const OnClickOutsideWrapper = onClickOutside(React.createClass({
   },
 
   render () {
-    let {
+    const {
       handleClickOutside,
       disableOnClickOutside,
       enableOnClickOutside,
