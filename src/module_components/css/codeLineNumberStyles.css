@@ -1,0 +1,14 @@
+/*.RichEditor-editor .public-DraftStyleDefault-pre {
+    counter-reset: line;
+}
+*/
+.RichEditor-editor .public-DraftStyleDefault-pre > pre.null {
+    counter-increment: line;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre > pre.null:before {
+    float: left;
+    opacity: 0.3;
+    content: counter(line) ". ";
+    -webkit-user-select: none;
+}

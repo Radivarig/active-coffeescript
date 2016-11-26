@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 
 import { EditorState, RichUtils } from 'draft-js'
 import Editor from 'draft-js-plugins-editor'
+
 import editorStyles from 'css/editorStyles.css'
+import codeLineNumberStyles from 'css/codeLineNumberStyles.css'
 
 import PrismDecorator from 'draft-js-prism'
 import 'prismjs/themes/prism.css'
