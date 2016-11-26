@@ -1,4 +1,5 @@
 import React from 'react'
+import draftHelpers from 'draftHelpers'
 
 const BLOCK_TYPES = [
   {label: 'H1', style: 'header-one'},
@@ -25,11 +26,7 @@ const blockLogic = {
 
   BlockStyleControls (props) {
     const {editorState} = props
-    const selection = editorState.getSelection()
-    const blockType = editorState
-      .getCurrentContent()
-      .getBlockForKey(selection.getStartKey())
-      .getType()
+    const blockType = draftHelpers.getBlockType(editorState)
 
     const controls = (type, key) => {
       const active = type.style === blockType
