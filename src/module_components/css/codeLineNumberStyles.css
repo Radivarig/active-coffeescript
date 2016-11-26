@@ -3,12 +3,16 @@
 }
 */
 .RichEditor-editor .public-DraftStyleDefault-pre > pre.null {
+    margin-left: -0.5em;
     counter-increment: line;
 }
 
 .RichEditor-editor .public-DraftStyleDefault-pre > pre.null:before {
     float: left;
     opacity: 0.3;
-    content: counter(line) ". ";
+    display: inline-block;
+    width: 2.5em;
+    text-align: center;
+    content: counter(line) ".";
     -webkit-user-select: none;
 }
